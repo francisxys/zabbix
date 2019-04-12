@@ -1,0 +1,18 @@
+#!/bin/bash
+case $# in
+ 3)
+  output=$(/bin/echo "db.serverStatus().$3" |/data/mongodb/bin/mongo $1:$2/admin -u zabbix -p zabbix --quiet)
+  ;;
+ 4)
+  output=$(/bin/echo "db.serverStatus().$3.$4" |/data/mongodb/bin/mongo $1:$2/admin -u zabbix -p zabbix --quiet)
+  ;;
+ 5)
+  output=$(/bin/echo "db.serverStatus().$3.$4.$5" |/data/mongodb/bin/mongo $1:$2/admin -u zabbix -p zabbix --quiet)
+  ;;
+esac
+if [[ "$output" =~ "NumberLong"  ]];then
+ echo $output|sed -n 's/NumberLong(//p'|sed -n 's/)//p'
+else
+ echo $output
+fi
+
